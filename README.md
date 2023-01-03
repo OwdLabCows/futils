@@ -30,3 +30,19 @@ You can install some Python packages as follows.
 ```sh
 pip install -r ./requirements.txt
 ```
+
+# For Developer
+
+## Code convention
+
+This code follows the PEP8 code convention.
+You can use `flake8` for checking code convention. `flake8` is included in `requirements.txt`.
+
+## Development environment
+
+Development environment using venv as follows is recomended because of `.gitignore` setting.
+
+```sh
+python3 -m venv ./.ctutils_venv
+```
+
