@@ -83,7 +83,10 @@ class BaseUtils():
             self.logger.debug(f"'{path}' is loaded.'")
             reader = csv.reader(f)
             self.logger.info("completed.")
-            return [row for row in reader]
+            list_ = [row for row in reader]
+            if skip_header:
+                list_ = list_[1:]
+            return list_
 
     def load_dict_from_json(self, path: str):
         self.logger.info(
