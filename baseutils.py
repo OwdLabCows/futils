@@ -29,6 +29,8 @@ class BaseUtils():
 
     def reset_directory(self, path: str, recursive: bool = True):
         self.logger.info("start util process to reset a directory.")
+        if not os.path.exists(path):
+            self.logger.warning(f"'{path}' does not exist.")
         for p in glob.glob(path, recursive=recursive):
             if os.path.isfile(p):
                 self.logger.warning(f"remove a file '{p}' in '{path}'.")
