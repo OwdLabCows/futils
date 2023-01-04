@@ -44,7 +44,7 @@ res = base_utils.load_dict_from_json("/path/to/jsonfile.json")
 print(res)
 
 # reset a directory
-base_utils.remove_glob(
+base_utils.reset_directory(
     "/path/to/directory")
 
 # zip a directory

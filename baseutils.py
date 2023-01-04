@@ -27,7 +27,7 @@ class BaseUtils():
             terminal.setFormatter(fmt)
             self.logger.addHandler(terminal)
 
-    def remove_glob(self, path: str, recursive: bool = True):
+    def reset_directory(self, path: str, recursive: bool = True):
         self.logger.info("start util process to reset a directory.")
         for p in glob.glob(path, recursive=recursive):
             if os.path.isfile(p):
