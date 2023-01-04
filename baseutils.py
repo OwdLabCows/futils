@@ -4,6 +4,7 @@ import os
 import pickle
 import csv
 import json
+import pandas as pd
 
 from typing import Any, List, Union
 
@@ -56,3 +57,11 @@ def zip_directory(path: str):
     if not os.path.isdir(path):
         raise FileNotFoundError(f"{path} must be a directory")
     os.system(f'zip -r "{os.path.dirname(path)}.zip" "{path}"')
+
+
+def meta_exel_to_df(
+        path: str, skiprows: Union(None, int) = 1,
+        index_col: Union(None, List[Any]) = None
+        ) -> pd.DataFrame:
+    df = pd.read_excel(path, skiprows=skiprows, index_col=index_col)
+    return df
