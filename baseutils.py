@@ -34,7 +34,6 @@ class BaseUtils():
             if reset:
                 self.logger.warning(f"remove '{path}'.")
                 self.reset_directory(path, recursive=True)
-            else:
                 self.logger.info("completed.")
                 return
         self.logger.debug(f"make directories '{path}'.")
@@ -45,7 +44,9 @@ class BaseUtils():
         self.logger.info("start util process to reset a directory.")
         if not os.path.exists(path):
             self.logger.warning(f"'{path}' does not exist.")
-        for p in glob.glob(path, recursive=recursive):
+        for p in glob.glob(os.path.join(path, "*"), recursive=recursive):
+            if p == path:
+                continue
             if os.path.isfile(p):
                 self.logger.warning(f"remove a file '{p}' in '{path}'.")
                 os.remove(p)
