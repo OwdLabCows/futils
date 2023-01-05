@@ -104,9 +104,9 @@ class BaseUtils():
         if not os.path.isdir(path):
             self.logger.error("the type is not diretory.")
             raise FileNotFoundError(f"{path} must be 第1話a directory")
-        os.system(f'zip -r "{os.path.dirname(path)}.zip" "{path}"')
+        os.system(f'zip -r "{path}.zip" "{path}"')
         self.logger.debug(
-            f"'zip -r \"{os.path.dirname(path)}.zip\" \"{path}\"' is done.")
+            f"'zip -r \"{path}.zip\" \"{path}\"' is done.")
         self.logger.info("completed.")
 
     def meta_exel_to_df(
