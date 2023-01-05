@@ -27,6 +27,20 @@ class BaseUtils():
             terminal.setFormatter(fmt)
             self.logger.addHandler(terminal)
 
+    def make_directories(self, path: str, reset: bool = False):
+        self.logger.info("start util process to make directories.")
+        if os.path.exists(path):
+            self.logger.warning(f"'{path}' exists.")
+            if reset:
+                self.logger.warning(f"remove '{path}'.")
+                self.reset_directory(path, recursive=True)
+            else:
+                self.logger.info("completed.")
+                return
+        self.logger.debug(f"make directories '{path}'.")
+        os.makedirs(path)
+        self.logger.info("completed.")
+
     def reset_directory(self, path: str, recursive: bool = True):
         self.logger.info("start util process to reset a directory.")
         if not os.path.exists(path):
