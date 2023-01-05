@@ -18,7 +18,7 @@ See `example.py`.
 
 This tool sets run on Linux.
 
-You have to install FFmpge and some Python packages.
+You have to install FFmpeg and some Python packages.
 
 ## FFmpeg
 
