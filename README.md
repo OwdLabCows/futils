@@ -12,7 +12,7 @@ This tool provides the following functions.
 
 # Example
 
-TODO
+See `example.py`.
 
 # Requirements
 
