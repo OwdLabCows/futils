@@ -32,10 +32,12 @@ class BaseUtils():
         if os.path.exists(path):
             self.logger.warning(f"'{path}' exists.")
             if reset:
-                self.logger.warning(f"remove '{path}'.")
+                self.logger.warning(f"reset '{path}'.")
                 self.reset_directory(path, recursive=True)
-                self.logger.info("completed.")
-                return
+            else:
+                self.logger.debug("do nothing.")
+            self.logger.info("completed.")
+            return
         self.logger.debug(f"make directories '{path}'.")
         os.makedirs(path)
         self.logger.info("completed.")
