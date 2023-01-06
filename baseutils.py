@@ -8,7 +8,7 @@ import sys
 # pandas
 import pandas as pd
 # typing
-from typing import Any, List, Union
+from typing import Any, List, Union, Dict
 # logging
 import logging
 
@@ -110,6 +110,14 @@ class BaseUtils():
             if skip_header:
                 list_ = list_[1:]
             return list_
+
+    def dict_to_json(self, path: str, dict_obj: Dict):
+        self.logger.info(
+            "start util process to convert dict to json file.")
+        with open(path, 'w') as f:
+            self.logger.debug(f"'{path}' is generated.")
+            json.dump(dict_obj, f)
+            self.logger.info("completed.")
 
     def load_dict_from_json(self, path: str):
         self.logger.info(
