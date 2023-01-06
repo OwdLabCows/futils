@@ -85,7 +85,7 @@ class BaseUtils():
 
     def list_to_csv(
             self,
-            path: str, list_obj: List[Any],
+            path: str, list_obj: List[List[Any]],
             header: Union[List[str], None] = None
             ):
         self.logger.info("start util process to convert list to csv file.")
@@ -99,7 +99,7 @@ class BaseUtils():
         self.logger.info("completed.")
 
     def load_list_from_csv(
-            self, path: str, skip_header: bool = False) -> List[Any]:
+            self, path: str, skip_header: bool = False) -> List[List[str]]:
         self.logger.info(
             "start util process to load csv file and generate list.")
         with open(path, 'r') as f:
