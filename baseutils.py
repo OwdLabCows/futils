@@ -44,8 +44,14 @@ class BaseUtils():
 
     def reset_directory(self, path: str):
         self.logger.info("start util process to reset a directory.")
+        if not os.path.isdir(path):
+            self.logger.warning(f"'{path}' is not a directory.")
+            self.logger.info("completed.")
+            return
         if not os.path.exists(path):
             self.logger.warning(f"'{path}' does not exist.")
+            self.logger.info("completed.")
+            return
         for p in glob.glob(os.path.join(path, "*")):
             if p == path:
                 continue
