@@ -5,20 +5,20 @@ This tool provides the following functions.
 
 - to delete files belonging to a directory
 - to convert objects to pickle or CSV files
-- to load pickle or CSV files and convert them to objects
+- to load pickle, JSON or CSV files and convert them to objects
 - to zip a directory
 - to load meta infomation in exel file and convert them to Pandas DataFrame
 - convert mp4 to WAV using FFmpeg
 
 # Example
 
-TODO
+See `example.py`.
 
 # Requirements
 
 This tool sets run on Linux.
 
-You have to install FFmpge and some Python packages.
+You have to install FFmpeg and some Python packages.
 
 ## FFmpeg
 

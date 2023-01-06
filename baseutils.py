@@ -8,7 +8,7 @@ import sys
 # pandas
 import pandas as pd
 # typing
-from typing import Any, List, Union
+from typing import Any, List, Union, Dict
 # logging
 import logging
 
@@ -27,11 +27,34 @@ class BaseUtils():
             terminal.setFormatter(fmt)
             self.logger.addHandler(terminal)
 
-    def reset_directory(self, path: str, recursive: bool = True):
+    def make_directories(self, path: str, reset: bool = False):
+        self.logger.info("start util process to make directories.")
+        if os.path.exists(path):
+            self.logger.warning(f"'{path}' exists.")
+            if reset:
+                self.logger.warning(f"reset '{path}'.")
+                self.reset_directory(path)
+            else:
+                self.logger.debug("do nothing.")
+            self.logger.info("completed.")
+            return
+        self.logger.debug(f"make directories '{path}'.")
+        os.makedirs(path)
+        self.logger.info("completed.")
+
+    def reset_directory(self, path: str):
         self.logger.info("start util process to reset a directory.")
+        if not os.path.isdir(path):
+            self.logger.warning(f"'{path}' is not a directory.")
+            self.logger.info("completed.")
+            return
         if not os.path.exists(path):
             self.logger.warning(f"'{path}' does not exist.")
-        for p in glob.glob(path, recursive=recursive):
+            self.logger.info("completed.")
+            return
+        for p in glob.glob(os.path.join(path, "*")):
+            if p == path:
+                continue
             if os.path.isfile(p):
                 self.logger.warning(f"remove a file '{p}' in '{path}'.")
                 os.remove(p)
@@ -62,7 +85,7 @@ class BaseUtils():
 
     def list_to_csv(
             self,
-            path: str, list_obj: List[Any],
+            path: str, list_obj: List[List[Any]],
             header: Union[List[str], None] = None
             ):
         self.logger.info("start util process to convert list to csv file.")
@@ -72,11 +95,11 @@ class BaseUtils():
             if header is not None:
                 writer.writerow(header)
                 self.logger.debug(f"header '{header}' is set.")
-            writer.writerow(list_obj)
+            writer.writerows(list_obj)
         self.logger.info("completed.")
 
     def load_list_from_csv(
-            self, path: str, skip_header: bool = False) -> List[Any]:
+            self, path: str, skip_header: bool = False) -> List[List[str]]:
         self.logger.info(
             "start util process to load csv file and generate list.")
         with open(path, 'r') as f:
@@ -87,6 +110,14 @@ class BaseUtils():
             if skip_header:
                 list_ = list_[1:]
             return list_
+
+    def dict_to_json(self, path: str, dict_obj: Dict):
+        self.logger.info(
+            "start util process to convert dict to json file.")
+        with open(path, 'w') as f:
+            self.logger.debug(f"'{path}' is generated.")
+            json.dump(dict_obj, f)
+            self.logger.info("completed.")
 
     def load_dict_from_json(self, path: str):
         self.logger.info(
@@ -109,12 +140,12 @@ class BaseUtils():
             f"'zip -r \"{path}.zip\" \"{path}\"' is done.")
         self.logger.info("completed.")
 
-    def meta_exel_to_df(
+    def meta_excel_to_df(
             self,
             path: str, skiprows: Union[None, int] = 1,
             index_col: Union[None, List[Any]] = None
             ) -> pd.DataFrame:
-        log = "start util process to load meta exel file " + \
+        log = "start util process to load meta excel file " + \
             "and generate pandas DataFrame."
         self.logger.info(log)
         df = pd.read_excel(path, skiprows=skiprows, index_col=index_col)
