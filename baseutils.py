@@ -95,7 +95,7 @@ class BaseUtils():
             if header is not None:
                 writer.writerow(header)
                 self.logger.debug(f"header '{header}' is set.")
-            writer.writerow(list_obj)
+            writer.writerows(list_obj)
         self.logger.info("completed.")
 
     def load_list_from_csv(
