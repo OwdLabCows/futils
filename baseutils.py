@@ -5,8 +5,6 @@ import pickle
 import csv
 import json
 import sys
-# pandas
-import pandas as pd
 # typing
 from typing import Any, List, Union, Dict
 # logging
@@ -139,16 +137,3 @@ class BaseUtils():
         self.logger.debug(
             f"'zip -r \"{path}.zip\" \"{path}\"' is done.")
         self.logger.info("completed.")
-
-    def meta_excel_to_df(
-            self,
-            path: str, skiprows: Union[None, int] = 1,
-            index_col: Union[None, List[Any]] = None
-            ) -> pd.DataFrame:
-        log = "start util process to load meta excel file " + \
-            "and generate pandas DataFrame."
-        self.logger.info(log)
-        df = pd.read_excel(path, skiprows=skiprows, index_col=index_col)
-        self.logger.debug(f"'{path}' is loaded.")
-        self.logger.info("completed.")
-        return df
