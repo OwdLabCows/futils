@@ -1,4 +1,6 @@
-# CtUtils
+# FabreUtils
+
+This repo is a forked repo from OwdLabCows/ctutil.
 
 This is a toolset for Contexual-Targeting systems or similar systems.
 This tool provides the following functions.
