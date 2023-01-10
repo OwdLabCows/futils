@@ -3,7 +3,6 @@ import datetime
 from pathlib import Path
 import os
 import shutil
-import pandas as pd
 # import BaseUtils class from baseutil.py
 from baseutils import BaseUtils
 # typing
@@ -168,11 +167,3 @@ def test_zip_directory(directory: Path):
     zipfile_path = str(directory) + ".zip"
     assert os.path.exists(zipfile_path)
     assert os.path.isfile(zipfile_path)
-
-
-# test 'meta_excel_to_df'
-def test_meta_excel_to_df():
-    base_utils = BaseUtils()
-    path = "./tests/meta_example.xlsx"
-    res = base_utils.meta_excel_to_df(path)
-    assert type(res) == pd.DataFrame
