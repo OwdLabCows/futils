@@ -3,8 +3,8 @@ import datetime
 from pathlib import Path
 import os
 import shutil
-# import BaseUtils class from baseutil.py
-from baseutils import BaseUtils
+# import SystemUtils class from baseutil.py
+from futils import SystemUtils
 # typing
 from typing import Dict, List
 
@@ -54,9 +54,9 @@ def directory(tmpdir: Path) -> str:
     ("new_d", True, True),
 ])
 def test_make_directories_exist(subpath, reset, exists, directory: Path):
-    base_utils = BaseUtils()
+    system_utils = SystemUtils()
     path = os.path.join(str(directory), subpath)
-    base_utils.make_directories(path, reset=reset)
+    system_utils.make_directories(path, reset=reset)
     assert os.path.exists(path) == exists
 
 
@@ -68,34 +68,34 @@ def test_make_directories_exist(subpath, reset, exists, directory: Path):
 def test_make_directories_is_file(
         subpath, reset, is_file, is_dir,
         directory: Path):
-    base_utils = BaseUtils()
+    system_utils = SystemUtils()
     path = os.path.join(str(directory), subpath)
-    base_utils.make_directories(path, reset=reset)
+    system_utils.make_directories(path, reset=reset)
     assert os.path.isfile(path) == is_file
     assert os.path.isdir(path) == is_dir
 
 
 # test 'reset_directory'
 def test_reset_directory_is_done(directory: Path):
-    base_utils = BaseUtils()
+    system_utils = SystemUtils()
     path = os.path.join(str(directory), "test_havingsomefiles_d")
-    base_utils.reset_directory(path)
+    system_utils.reset_directory(path)
     assert len(os.listdir(path)) == 0
 
 
 # test 'reset_directory' if the item is not a directory
 def test_reset_directory_not_dir(directory: Path):
-    base_utils = BaseUtils()
+    system_utils = SystemUtils()
     path = os.path.join(str(directory), "test_1.file")
-    base_utils.reset_directory(path)
+    system_utils.reset_directory(path)
     assert os.path.isfile(path)
 
 
 # test 'reset_directory' if the item does not exist
 def test_reset_directory_not_exist(directory: Path):
-    base_utils = BaseUtils()
+    system_utils = SystemUtils()
     path = os.path.join(str(directory), "unknown_item")
-    base_utils.reset_directory(path)
+    system_utils.reset_directory(path)
     assert not os.path.exists(path)
 
 
@@ -104,16 +104,16 @@ def object_() -> Dict:
     return {f"value_{i}": i for i in range(9)}
 
 
-# test 'obj_to_pickle' and 'load_obj_from_pickle'
-def test_obj_to_pickle_load_obj_from_pickle(object_: Dict, tmpdir: Path):
-    base_utils = BaseUtils()
+# test 'object_to_pickle' and 'load_object_from_pickle'
+def test_object_to_pickle_load_object_from_pickle(object_: Dict, tmpdir: Path):
+    system_utils = SystemUtils()
     path = tmpdir / "sample.pickle"
-    # create pickle file by 'obj_to_pickle'
-    base_utils.obj_to_picle(path, object_)
+    # create pickle file by 'object_to_pickle'
+    system_utils.object_to_picle(path, object_)
     assert os.path.exists(path)
     assert os.path.isfile(path)
-    # load obj by 'load_obj_from_pickle'
-    res = base_utils.load_obj_from_pickle(path)
+    # load object by 'load_object_from_pickle'
+    res = system_utils.load_object_from_pickle(path)
     assert object_ == res
 
 
@@ -129,10 +129,10 @@ def list2d() -> List[List[int]]:
 # test 'list_to_csv' and 'load_list_from_csv'
 def test_list_to_csv_load_list_from_csv(
         header, list2d: List[List[int]], tmpdir: Path):
-    base_utils = BaseUtils()
+    system_utils = SystemUtils()
     path = tmpdir / "sample.csv"
     # create csv file by 'list_to_csv'
-    base_utils.list_to_csv(path, list2d, header)
+    system_utils.list_to_csv(path, list2d, header)
     assert os.path.exists(path)
     assert os.path.isfile(path)
     # load list by 'load_list_from_csv'
@@ -140,7 +140,7 @@ def test_list_to_csv_load_list_from_csv(
         skip_header = False
     else:
         skip_header = True
-    res = base_utils.load_list_from_csv(path, skip_header)
+    res = system_utils.load_list_from_csv(path, skip_header)
     assert list2d == [[int(s) for s in slist] for slist in res]
 
 
@@ -151,19 +151,19 @@ def dict_() -> Dict:
 
 # test 'dict_to_json' and 'load_dict_from_json'
 def test_dict_from_json(dict_: Dict, tmpdir: Path):
-    base_utils = BaseUtils()
+    system_utils = SystemUtils()
     path = tmpdir / "sample.json"
-    base_utils.dict_to_json(path, dict_)
+    system_utils.dict_to_json(path, dict_)
     assert os.path.exists(path)
     assert os.path.isfile(path)
-    res = base_utils.load_dict_from_json(path)
+    res = system_utils.load_dict_from_json(path)
     assert res == dict_
 
 
 # test 'zip_directory'
 def test_zip_directory(directory: Path):
-    base_utils = BaseUtils()
-    base_utils.zip_directory(str(directory))
+    system_utils = SystemUtils()
+    system_utils.zip_directory(str(directory))
     zipfile_path = str(directory) + ".zip"
     assert os.path.exists(zipfile_path)
     assert os.path.isfile(zipfile_path)

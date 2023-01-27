@@ -4,26 +4,12 @@ import os
 import pickle
 import csv
 import json
-import sys
+from futils import UtilsBase
 # typing
 from typing import Any, List, Union, Dict
-# logging
-import logging
 
 
-class BaseUtils():
-
-    def __init__(self, logger: Union[logging.Logger, None] = None):
-        self.logger = logger
-        if self.logger is None:
-            self.logger = logging.getLogger(__name__)
-            terminal = logging.StreamHandler(sys.stdout)
-            terminal.setLevel(logging.INFO)
-            msgfmt = "%(asctime)s in %(funcName)s(%(filename)s)"
-            dtfmt = "%Y-%m-%d %I:%M:%S %p"
-            fmt = logging.Formatter(msgfmt, dtfmt)
-            terminal.setFormatter(fmt)
-            self.logger.addHandler(terminal)
+class SystemUtils(UtilsBase):
 
     def make_directories(self, path: str, reset: bool = False):
         self.logger.info("start util process to make directories.")
@@ -57,11 +43,11 @@ class BaseUtils():
                 self.logger.warning(f"remove a file '{p}' in '{path}'.")
                 os.remove(p)
             elif os.path.isdir(p):
-                self.logger.warning(f"remove a directory '{p}' in '{path}'")
+                self.logger.warning(f"remove a directory '{p}' in '{path}'.")
                 shutil.rmtree(p)
         self.logger.info("completed.")
 
-    def obj_to_picle(self, path: str, obj: Any) -> str:
+    def object_to_picle(self, path: str, obj: Any) -> str:
         self.logger.info(
             "start util process to convert object to pickle file.")
         self.logger.debug(f"convert {type(obj)} to '{path}'")
@@ -71,7 +57,7 @@ class BaseUtils():
         self.logger.info("completed.")
         return path
 
-    def load_obj_from_pickle(self, path: str) -> Any:
+    def load_object_from_pickle(self, path: str) -> Any:
         self.logger.info(
             "start util process to load pickle file and generate object.")
         self.logger.info(f"load '{path}' and generate object.")
