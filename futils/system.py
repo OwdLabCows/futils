@@ -144,9 +144,9 @@ class SystemUtils(UtilsBase):
         if add and (not os.path.exists(zippath)):
             self.logger.error("Zip file must exist if add mode is true.")
             raise FileNotFoundError("Could not find the zip file.")
-        if (not add) and os.path.exists(zipfile):
-            self.remove_file(zipfile)
-        if not os.path.isdir(itempath):
+        if (not add) and os.path.exists(zippath + '.zip'):
+            self.remove_file(zippath + '.zip')
+        if os.path.isdir(itempath):
             self.logger.debug(f"Zip the diretory {itempath}.")
             shutil.make_archive(zippath, format='zip', root_dir=itempath)
         else:
@@ -157,6 +157,6 @@ class SystemUtils(UtilsBase):
             else:
                 self.logger.debug(f"Add mode is false.")
                 mode = 'w'
-            with zipfile.ZipFile(str(zippath) + '.zip', mode) as zf:
+            with zipfile.ZipFile(zippath + '.zip', mode) as zf:
                 zf.write(itempath)
         self.logger.info("completed.")
