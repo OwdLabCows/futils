@@ -157,6 +157,6 @@ class SystemUtils(UtilsBase):
             else:
                 self.logger.debug(f"Add mode is false.")
                 mode = 'w'
-            with zipfile.ZipFile(itempath, mode) as zf:
+            with zipfile.ZipFile(str(zippath) + '.zip', mode) as zf:
                 zf.write(itempath)
         self.logger.info("completed.")
