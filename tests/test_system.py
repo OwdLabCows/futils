@@ -75,6 +75,30 @@ def test_make_directories_is_file(
     assert os.path.isdir(path) == is_dir
 
 
+# test 'remove_file'
+def test_remove_file(directory: Path):
+    system_utils = SystemUtils()
+    path = os.path.join(directory, "test_1.file")
+    system_utils.remove_file(path)
+    assert os.path.exists(path) == False
+
+
+# test 'remove_directory' if the directory have some files
+def test_remove_direcotry(directory: Path):
+    system_utils = SystemUtils()
+    path = os.path.join(directory, "test_havingsomefiles_d")
+    system_utils.remove_directory(path)
+    assert os.path.exists(path) == False
+
+
+# test 'remove_directory' if the directory is empty
+def test_remove_empty_dir(directory: Path):
+    system_utils = SystemUtils()
+    path = os.path.join(directory, "test_a_d")
+    system_utils.remove_directory(path)
+    assert os.path.exists(path) == False
+
+
 # test 'reset_directory'
 def test_reset_directory_is_done(directory: Path):
     system_utils = SystemUtils()
@@ -160,10 +184,59 @@ def test_dict_from_json(dict_: Dict, tmpdir: Path):
     assert res == dict_
 
 
-# test 'zip_directory'
+# test 'zip_item' if the item is a directory
 def test_zip_directory(directory: Path):
     system_utils = SystemUtils()
-    system_utils.zip_directory(str(directory))
-    zipfile_path = str(directory) + ".zip"
+    path = os.path.join(directory, "test_havingsomefiles_d")
+    system_utils.zip_item(str(path))
+    zipfile_path = str(path) + ".zip"
     assert os.path.exists(zipfile_path)
     assert os.path.isfile(zipfile_path)
+
+
+# test 'zip_item' if the item is a directory and naming the zip file
+def test_zip_directory_named(directory: Path):
+    system_utils = SystemUtils()
+    path = os.path.join(directory, "test_havingsomefiles_d")
+    zipfile_path = os.path.join(directory, "zipfile")
+    system_utils.zip_item(path, zippath=str(zipfile_path))
+    assert os.path.exists(str(zipfile_path) + '.zip')
+    assert os.path.isfile(str(zipfile_path) + '.zip')
+
+
+# test 'zip_item' if the item a file
+def test_zip_file(directory: Path):
+    system_utils = SystemUtils()
+    path = os.path.join(directory, "test_1.file")
+    zipfile_path = path
+    system_utils.zip_item(str(path))
+    assert os.path.exists(str(zipfile_path) + '.zip')
+    assert os.path.isfile(str(zipfile_path) + '.zip')
+
+
+# test 'zip_item' if the item a file and naming the zip file
+def test_zip_file_named(directory: Path):
+    system_utils = SystemUtils()
+    path = os.path.join(directory, "test_1.file")
+    zipfile_path = os.path.join(directory, "zipfile")
+    system_utils.zip_item(str(path), zippath=str(zipfile_path))
+    assert os.path.exists(str(zipfile_path) + '.zip')
+    assert os.path.isfile(str(zipfile_path) + '.zip')
+
+
+@pytest.fixture
+def make_zip_file(directory: Path) -> str:
+    path = os.path.join(directory, "test_havingsomefiles_d")
+    system_utils = SystemUtils()
+    system_utils.zip_item(str(path))
+    yield directory
+
+
+# test 'zip_item' if the item a file
+def test_zip_file_added(make_zip_file: str):
+    system_utils = SystemUtils()
+    path = os.path.join(make_zip_file, "test_1.file")
+    zipfile_path = os.path.join(make_zip_file, "test_havingsomefiles_d")
+    system_utils.zip_item(str(path), zippath=str(zipfile_path), add=True)
+    assert os.path.exists(str(zipfile_path) + '.zip')
+    assert os.path.isfile(str(zipfile_path) + '.zip')
