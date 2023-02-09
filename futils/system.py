@@ -32,7 +32,21 @@ class SystemUtils(UtilsBase):
         if not os.path.exists(path):
             self.logger.error(f"Could not file the file {path}.")
             return
+        if not os.path.isfile(path):
+            self.logger.error("The item must be a file.")
+            return
         os.remove(path)
+        self.logger.info("completed.")
+
+    def remove_directory(self, path: str):
+        self.logger.info("start util process to remove a directory.")
+        if not os.path.exists(path):
+            self.logger.error(f"Could not file the directory {path}.")
+            return
+        if not os.path.isdir(path):
+            self.logger.error("The item must be a directory.")
+            return
+        shutil.rmtree(path)
         self.logger.info("completed.")
 
     def reset_directory(self, path: str):
