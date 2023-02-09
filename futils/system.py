@@ -4,6 +4,7 @@ import os
 import pickle
 import csv
 import json
+import zipfile
 from futils import UtilsBase
 # typing
 from typing import Any, List, Union, Dict
@@ -24,6 +25,14 @@ class SystemUtils(UtilsBase):
             return
         self.logger.debug(f"make directories '{path}'.")
         os.makedirs(path)
+        self.logger.info("completed.")
+
+    def remove_file(self, path: str):
+        self.logger.info("start util process to remove a file.")
+        if not os.path.exists(path):
+            self.logger.error(f"Could not file the file {path}.")
+            return
+        os.remove(path)
         self.logger.info("completed.")
 
     def reset_directory(self, path: str):
@@ -111,15 +120,29 @@ class SystemUtils(UtilsBase):
             self.logger.info("completed.")
             return json.load(f)
 
-    def zip_directory(self, path: str):
+    def zip_item(self, itempath: str, zippath: Union[str, None] = None, add: bool = True):
         self.logger.info("start util process to zip a directory.")
-        if not os.path.exists(path):
-            self.logger.error("the directory cloud not be found.")
-            raise FileNotFoundError(f"Could not find {path}")
-        if not os.path.isdir(path):
-            self.logger.error("the type is not diretory.")
-            raise FileNotFoundError(f"{path} must be 第1話a directory")
-        os.system(f'zip -r "{path}.zip" "{path}"')
-        self.logger.debug(
-            f"'zip -r \"{path}.zip\" \"{path}\"' is done.")
+        if zippath is None:
+            zippath = itempath
+        if not os.path.exists(itempath):
+            self.logger.error("the item cloud not be found.")
+            raise FileNotFoundError(f"Could not find {itempath}")
+        if add and not os.path.exists(zippath):
+            self.logger.error("Zip file must exist if add mode is true.")
+            raise FileNotFoundError("Could not find the zip file.")
+        if not add and os.path.exists(zipfile):
+            self.remove_file(zipfile)
+        if not os.path.isdir(itempath):
+            self.logger.debug(f"Zip the diretory {itempath}.")
+            shutil.make_archive(zippath, format='zip', root_dir=itempath)
+        else:
+            self.logger.debug(f"Zip the file {itempath}")
+            if add:
+                self.logger.debug(f"Add mode is true.")
+                mode = 'a'
+            else:
+                self.logger.debug(f"Add mode is false.")
+                mode = 'w'
+            with zipfile.ZipFile(itempath, mode) as zf:
+                zf.write(itempath)
         self.logger.info("completed.")
