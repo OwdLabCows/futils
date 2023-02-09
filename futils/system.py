@@ -134,17 +134,17 @@ class SystemUtils(UtilsBase):
             self.logger.info("completed.")
             return json.load(f)
 
-    def zip_item(self, itempath: str, zippath: Union[str, None] = None, add: bool = True):
+    def zip_item(self, itempath: str, zippath: Union[str, None] = None, add: bool = False):
         self.logger.info("start util process to zip a directory.")
         if zippath is None:
             zippath = itempath
         if not os.path.exists(itempath):
             self.logger.error("the item cloud not be found.")
             raise FileNotFoundError(f"Could not find {itempath}")
-        if add and not os.path.exists(zippath):
+        if add and (not os.path.exists(zippath)):
             self.logger.error("Zip file must exist if add mode is true.")
             raise FileNotFoundError("Could not find the zip file.")
-        if not add and os.path.exists(zipfile):
+        if (not add) and os.path.exists(zipfile):
             self.remove_file(zipfile)
         if not os.path.isdir(itempath):
             self.logger.debug(f"Zip the diretory {itempath}.")
