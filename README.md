@@ -6,25 +6,33 @@ This is a toolset for Contexual-Targeting systems or similar systems.
 This tool provides the following functions.
 
 - to delete files belonging to a directory
+- to delete files or directories
 - to convert objects to pickle or CSV files
 - to load pickle, JSON or CSV files and convert them to objects
 - to zip a directory
-- to load meta infomation in exel file and convert them to Pandas DataFrame
-- convert mp4 to WAV using FFmpeg
 
-# Example
+## Installation
+
+You can install this package via `setup.py` after clone this repository.
+
+via `setup.py` (after cloning)
+
+```
+python setup.py install
+```
+
+## Example
 
 See `example.py`.
 
-# Requirements
+
+# For Developer
+
+## Requirements
 
 This tool sets run on Linux.
 
 You have to install FFmpeg and some Python packages.
-
-## FFmpeg
-
-You can see the information of installation on [this site](https://github.com/FFmpeg/FFmpeg/blob/master/INSTALL.md) 
 
 ## Python packages
 
@@ -33,8 +41,6 @@ You can install some Python packages as follows.
 ```sh
 pip install -r ./requirements.txt
 ```
-
-# For Developer
 
 ## Code convention
 
